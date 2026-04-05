@@ -1,0 +1,3 @@
+Request ID,Timestamp,Team #,CFO Name,Provider/Supplier,Item Name,Quantity,Unit Price ($),Total Price ($),Link to Purchase,Notes,Approval Status
+6855efde-5cc1-4c00-aac2-655300f51f65,2026-03-30 15:59,3,Taya,Amazon,123,1,10.0,10.0,1,,Pending
+4c6dc539-e3d5-47fb-896e-739ba163abac,2026-04-04 17:35,1,ASD,Amazon,ESP32,1,3.0,3.0,123123,,Pending
