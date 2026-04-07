@@ -1,66 +1,93 @@
-# Architecture Document
+# Origins — Architecture Document
 
 ## Overview
 
-An AI-powered life story capture tool. AI asks interview questions, user records audio answers, audio gets transcribed and organized into a timeline with photos.
+An AI-powered life story capture tool. AI asks interview questions, users respond via audio recording or text input, and stories are organized into a browsable chronological timeline with photos.
 
 ## Tech Stack
 
 | Layer | Choice | Why |
 |-------|--------|-----|
-| Frontend + Backend | Streamlit | Fast to build, built-in audio recorder widget, simple deployment |
-| Database | Supabase (PostgreSQL) | Free tier, built-in auth, storage for audio & photos |
-| Speech-to-Text | OpenAI Whisper API | Best accuracy, simple integration |
-| AI Interviewer | OpenAI GPT | Generates follow-up questions and summarizes stories |
+| Frontend + Backend | Streamlit | Fast prototyping, built-in audio recorder & file upload widgets, minimal boilerplate |
+| Database | Supabase (PostgreSQL) | Free tier, built-in auth (email/password), storage buckets for audio & photos |
+| AI Interviewer | OpenAI GPT | Generates adaptive follow-up questions and extracts dates/themes from stories |
+| Speech-to-Text | OpenAI Whisper API | Nice-to-have per SPEC; will integrate if time permits |
 | Deployment | Streamlit Cloud | One-click deploy from GitHub |
 
 ## Data Model
 
-Two tables:
+Three tables, matching SPEC:
+
+**users** (managed by Supabase Auth)
+| Column | Type | Note |
+|--------|------|------|
+| id | uuid (pk) | Supabase auth.users |
+| email | text | |
+| created_at | timestamp | |
+
+**persons**
+| Column | Type | Note |
+|--------|------|------|
+| id | uuid (pk) | |
+| user_id | uuid (fk → users) | |
+| name | text | loved one's name |
+| relationship | text | e.g. "grandmother" |
+| birth_year | int | |
+| photo_url | text | optional profile photo |
+| created_at | timestamp | |
 
 **stories**
 | Column | Type | Note |
 |--------|------|------|
 | id | uuid (pk) | |
-| subject_name | text | who the story is about |
-| audio_url | text | Supabase storage path |
-| transcript | text | Whisper output |
-| summary | text | AI-generated |
-| year_approx | int | for timeline ordering |
-| ai_question | text | the prompt that triggered this |
+| person_id | uuid (fk → persons) | |
+| question_text | text | AI-generated question |
+| response_text | text | typed or transcribed answer |
+| audio_url | text | Supabase storage path (nullable) |
+| photo_urls | text[] | associated photos |
+| estimated_date | text | AI-extracted, for timeline placement |
+| theme | text | e.g. "childhood", "career" |
+| order_index | int | manual ordering fallback |
 | created_at | timestamp | |
 
-**photos**
-| Column | Type | Note |
-|--------|------|------|
-| id | uuid (pk) | |
-| story_id | uuid (fk) | |
-| image_url | text | Supabase storage path |
-| caption | text | |
+## Pages (5 views)
 
-## Core Views
-
-1. **Interview** — AI asks question → user records audio → transcribe → AI follows up
-2. **Timeline** — Stories sorted by year, with transcripts and photos
+1. **Auth Page** — Sign up / log in (Supabase Auth)
+2. **Dashboard** — List of person profiles; create new person
+3. **Interview Session** — AI asks question → user records audio or types text → AI follows up
+4. **Timeline View** — Chronological timeline with story snippets and photos
+5. **Story Detail** — Full story with audio playback and photos
 
 ## AI Plan
 
-- Each recording: Whisper transcribes → GPT summarizes, extracts approximate year, generates next question
-- Conversation history kept in `st.session_state` so questions don't repeat
+- **Question generation:** GPT receives person profile + previous stories → generates warm, contextual follow-up questions covering life themes (childhood, career, relationships, milestones, traditions)
+- **Story organization:** After each response, GPT extracts estimated date, theme, and a short summary for timeline placement
+- **Session state:** Conversation history kept in `st.session_state` to avoid repeat questions
 
-## Agentic Development
+## Agentic Development Plan
 
-- Use AI coding tools (Cursor/Claude) for scaffolding
-- Prompts stored as plain text files for easy iteration
+- Use Cursor + Claude for scaffolding pages, Supabase integration, and AI prompt iteration
+- AI prompts stored as editable text files in `/prompts/` for easy tuning
+- Supabase schema managed via SQL migrations in repo
+
+## Development Timeline (per SPEC gates)
+
+| Gate | Deliverable | Target |
+|------|-------------|--------|
+| Gate 1 | Auth + DB schema + app navigation | Week 2 |
+| Gate 2 | Interview engine (AI questions + audio/text capture) end-to-end | Week 4 |
+| Gate 3 | Timeline view + photo uploads + AI organization | Week 6 |
+| Final | Polish, bug fixes, demo-ready | Week 7–8 |
 
 ## Estimated Hours
 
 | Task | Hours |
 |------|-------|
-| Supabase setup + schema | 3 |
-| Interview page + audio recording | 8 |
-| Whisper + AI pipeline | 6 |
-| Timeline view | 5 |
-| Photo upload | 3 |
-| Polish + deploy | 3 |
-| **Total** | **~28** |
+| Supabase setup + auth + schema | 5 |
+| Dashboard + person profiles | 4 |
+| Interview page (audio + text + AI) | 12 |
+| Timeline view + AI organization | 10 |
+| Photo upload + association | 4 |
+| Story detail + playback | 3 |
+| Polish + deploy | 4 |
+| **Total** | **~42** |
