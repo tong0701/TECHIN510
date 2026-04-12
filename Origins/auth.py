@@ -11,6 +11,18 @@ from supabase import Client, create_client
 load_dotenv()
 
 
+def format_auth_error(err: Exception) -> str:
+    """Short English messages for demo UI."""
+    msg = str(err).strip()
+    code = getattr(err, "code", None)
+    if code == "email_not_confirmed":
+        return "Please confirm your email before signing in."
+    low = msg.lower()
+    if "invalid login credentials" in low or "invalid credentials" in low:
+        return "Invalid email or password."
+    return msg
+
+
 def _clear_tokens() -> None:
     for key in ("supabase_access_token", "supabase_refresh_token", "user_email"):
         st.session_state.pop(key, None)

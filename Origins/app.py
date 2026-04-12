@@ -3,6 +3,7 @@
 import streamlit as st
 
 from auth import (
+    format_auth_error,
     get_supabase,
     init_auth,
     is_authenticated,
@@ -66,7 +67,7 @@ else:
                     else:
                         st.error("No session returned. Try again or confirm your email.")
                 except Exception as err:
-                    st.error(str(err))
+                    st.error(format_auth_error(err))
 
     with tab_signup:
         se = st.text_input("Email", key="signup_email", autocomplete="email")
@@ -89,9 +90,6 @@ else:
                         persist_session_from_response(res.session)
                         st.rerun()
                     else:
-                        st.info(
-                            "Account created. If email confirmation is enabled in "
-                            "Supabase, check your inbox before signing in."
-                        )
+                        st.success("Check your email to finish signing up, then log in.")
                 except Exception as err:
-                    st.error(str(err))
+                    st.error(format_auth_error(err))
