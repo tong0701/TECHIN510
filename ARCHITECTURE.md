@@ -4,6 +4,37 @@
 
 An AI-powered life story capture tool. AI asks interview questions, users respond via audio recording or text input, and stories are organized into a browsable chronological timeline with photos.
 
+## System context (C4 Level 1)
+
+At context level, the **person** uses one software system—the **Origins Streamlit app**—which depends on **Supabase** (identity, relational data, object storage) and the **OpenAI API** (GPT for interviewing, Whisper for speech-to-text).
+
+```mermaid
+flowchart LR
+    User([Person / User])
+
+    App["Software system<br/>Streamlit app — Origins"]
+
+    Auth[Supabase Auth]
+    DB[(Supabase Database)]
+    Store[Supabase Storage]
+
+    OAI["External system<br/>OpenAI API"]
+
+    User -->|uses| App
+    App --> Auth
+    App --> DB
+    App --> Store
+    App -->|GPT: questions · Whisper: STT| OAI
+```
+
+| Relationship | Description |
+|--------------|-------------|
+| User → Streamlit app | Browser: auth, dashboard, interview, timeline, story detail. |
+| Streamlit app → Supabase Auth | Sign up, sign in, session JWTs. |
+| Streamlit app → Supabase Database | `persons` and `stories` (and metadata). |
+| Streamlit app → Supabase Storage | Audio clips, photos, profile images. |
+| Streamlit app → OpenAI API | GPT for adaptive questions and extraction; Whisper for transcription. |
+
 ## Tech Stack
 
 | Layer | Choice | Why |
