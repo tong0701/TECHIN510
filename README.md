@@ -23,7 +23,7 @@ Origins provides:
 
 ## Tech Stack
 
-Implementation uses **Streamlit**, **Supabase** (Auth, PostgreSQL, Storage), and the **OpenAI API** (GPT for interviews, Whisper for speech-to-text). Details are in [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`Origins/ARCHITECTURE.md`](Origins/ARCHITECTURE.md).
+Implementation uses **Streamlit**, **Supabase** (Auth, PostgreSQL, Storage), and the **OpenAI API** (GPT for interviews, Whisper for speech-to-text). Details are in [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`gate1/ARCHITECTURE.md`](gate1/ARCHITECTURE.md).
 
 ## AI Features
 
@@ -38,8 +38,8 @@ Implementation uses **Streamlit**, **Supabase** (Auth, PostgreSQL, Storage), and
 | [`SPEC.md`](./SPEC.md) | Full project specification with user stories and acceptance criteria |
 | [`gix-bucks.md`](./gix-bucks.md) | GIX Bucks economy rules |
 | [`ARCHITECTURE.md`](./ARCHITECTURE.md) | Technical architecture (data model, stack) |
-| [`Origins/README.md`](Origins/README.md) | Run the app locally |
-| [`Origins/ARCHITECTURE.md`](Origins/ARCHITECTURE.md) | System context diagram (C4) |
+| [`gate1/README.md`](gate1/README.md) | Run the Gate 1 Streamlit app locally |
+| [`gate1/ARCHITECTURE.md`](gate1/ARCHITECTURE.md) | App-level C4 system context diagram |
 
 ---
 
@@ -76,11 +76,11 @@ The following timeline was agreed upon between the proposer and developer. Each 
 
 ```
 ├── .github/            # Issue & PR templates
-├── Origins/             # Streamlit app (run app, auth, pages)
+├── gate1/              # Gate 1 (Check-in 1) — Streamlit scaffold: auth, pages, theme
 ├── SPEC.md             # Project specification (user stories, acceptance criteria)
 ├── README.md           # This file
 ├── gix-bucks.md        # GIX Bucks economy rules
-└── ARCHITECTURE.md     # Technical architecture
+└── ARCHITECTURE.md     # Technical architecture (product + data model)
 ```
 
 ---

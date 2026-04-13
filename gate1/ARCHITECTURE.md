@@ -1,4 +1,6 @@
-# Architecture
+# Architecture (Gate 1 app)
+
+This folder holds the **Check-in 1 / Gate 1** Streamlit scaffold for the **Origins** product (see repo root `ARCHITECTURE.md` for the full technical document).
 
 ## Overview
 

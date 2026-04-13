@@ -1,4 +1,6 @@
-# Origins
+# Gate 1 — Origins app (Streamlit scaffold)
+
+This directory is the **Check-in 1 / Gate 1** milestone: the Origins **Streamlit** app (auth, multi-page shell, theme). The **product** is still **Origins**; the repo root describes the full project.
 
 AI-powered life story capture: an interviewer asks questions, you respond with audio or text, and stories are organized into a chronological timeline with photos.
 
@@ -21,10 +23,10 @@ Users are managed by Supabase Auth (`auth.users`).
 
 ## Setup
 
-1. **Clone the repo** and open the Origins app directory:
+1. **Clone the repo** and open this directory:
 
    ```bash
-   cd Origins
+   cd gate1
    ```
 
 2. **Create a virtual environment** (recommended):
@@ -52,7 +54,7 @@ Users are managed by Supabase Auth (`auth.users`).
    - `SUPABASE_KEY` — anon/public key (Settings → API). Use the **publishable** key suitable for client-side use in your security model.
    - `OPENAI_API_KEY` — your OpenAI API key (used in later features)
 
-5. **Run the app** from the `Origins` directory:
+5. **Run the app** from the `gate1` directory:
 
    ```bash
    streamlit run app.py
